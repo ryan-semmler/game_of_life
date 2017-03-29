@@ -1,9 +1,15 @@
-let x = 15;
-let y = 15;
+let x = 45;
+let y = 30;
 
 function clickCell(ev){
   let $clickedCell = $(ev.target);
-  $clickedCell.addClass('live');
+  if($clickedCell.hasClass('live')){
+    $clickedCell.removeClass('live');
+  } else {
+    $clickedCell.addClass('live');
+  }
+  let y = ev.target.parentNode.rowIndex;
+  let x = ev.target.cellIndex;
 }
 
 function getCell(j, i){
@@ -25,7 +31,9 @@ function getNeighbors(j, i){
 }
 
 function liveNeighborCount(j, i){
-  let $cell = getCell(j, i);
+  // let i = clickedCell.parentNode.rowIndex;
+  // let j = clickedCell.cellIndex;
+  // let $cell = getCell(j, i);
   let count = 0;
   let neighbors = getNeighbors(j, i);
   for(let i = 0; i < neighbors.length; i++){
@@ -60,8 +68,7 @@ function checkCells(x, y){
         if(liveNeighbors < 2 || liveNeighbors > 3){
           $cell.addClass('dead_pending')
         }
-      }
-      else{
+      } else {
         if(liveNeighbors === 3){
           $cell.addClass('live_pending')
         }
@@ -77,16 +84,14 @@ function updateCells(x, y){
       let $cell = getCell(j, i);
       if($cell.hasClass('dead_pending')){
         $cell.removeClass('live');
-        $cell.removeClass('dead_pending');
-      if($cell.hasClass('live_pending')){
+        $cell.removeClass('dead_pending')
+      } if($cell.hasClass('live_pending')){
         $cell.addClass('live');
         $cell.removeClass('live_pending');
-      }
       }
     }
   }
 }
-
 
 // function main(x, y){
 //   gameBoardSetup(x, y);
